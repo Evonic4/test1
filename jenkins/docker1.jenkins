@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('docker/toolbox') {
-                	sh 'docker build -t evonic/toolbox:latest . '
+                	sh 'docker build -t evonic1/toolbox:latest . '
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push evonic/toolbox:latest
+                docker push evonic1/toolbox:latest
                 '''
             }
         }
