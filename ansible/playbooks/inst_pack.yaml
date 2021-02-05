@@ -1,0 +1,61 @@
+---
+- name: install pack
+  hosts: all
+  remote_user: root
+
+  vars:
+    pakages:
+      - tree
+      - nano
+      - htop
+      - wget
+      - bc
+    hostname: testhost
+
+  tasks:
+
+  - name: conncheck
+    ping:
+
+  - debug: var=ansible_os_family
+
+  - block: #===RedHat===
+    - name: repo RedHat update
+      dnf:
+        update_cache: yes
+      register: pipi
+
+    - debug: msg={{ pipi }}
+
+    #- name: upgrade pack
+    #  dnf:
+    #    name: "*"
+    #    state: latest
+
+    - name: Install default pack on RedHat
+      dnf: name={{ pakages }} state=latest
+      ignore_errors: True
+    when: ansible_os_family == "RedHat"
+
+  - block: #===Debian===
+    - name: update Debian
+      shell: apt-get update
+      register: pipi2
+
+    - debug: msg={{ pipi2 }}
+      
+    - name: Install packages Debian
+      apt: name={{ item }} state=latest
+      register: pipi3
+      with_items:
+        - htop
+        - mytop
+        - wget
+        - bc
+      #sudo: yes
+      ignore_errors: True
+      
+    #- debug:
+    #    var: pipi3
+    when: ansible_os_family == "Debian"
+
