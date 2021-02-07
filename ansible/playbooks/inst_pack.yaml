@@ -32,6 +32,10 @@
     #    name: "*"
     #    state: latest
 
+    #- name: set hostname
+    #  hostname:
+    #    name: "{{hostname}}"
+
     - name: Install default pack on RedHat
       dnf: name={{ pakages }} state=latest
       ignore_errors: True
