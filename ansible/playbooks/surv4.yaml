@@ -1,0 +1,12 @@
+---
+- name: test1
+  hosts: all
+  remote_user: root
+
+  tasks:
+  - name: cat
+    shell: last reboot | head -n 1
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout
