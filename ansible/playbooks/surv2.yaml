@@ -1,0 +1,39 @@
+---
+- name: install pack
+  hosts: all
+  remote_user: root
+
+  vars:
+    pakages:
+      - tree
+      - nano
+      - htop
+      - wget
+      - bc
+
+  tasks:
+
+  - debug: var=ansible_os_family
+
+  - block: #===RedHat===
+
+    - name: repo RedHat update
+      dnf:
+        update_cache: yes
+      register: pipi
+
+    - debug: msg={{ pipi }}
+
+    when: ansible_os_family == "RedHat"
+
+  - block: #===Debian===
+      
+    - name: repo Debian update
+      deb:
+        update_cache: yes
+      register: pipi1
+
+    - debug: msg={{ pipi1 }}
+
+    when: ansible_os_family == "Debian"
+

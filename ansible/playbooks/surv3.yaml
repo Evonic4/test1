@@ -1,0 +1,34 @@
+---
+- name: install pack
+  hosts: all
+  remote_user: root
+
+  vars:
+    pakages:
+      - tree
+      - nano
+      - htop
+      - wget
+      - bc
+
+  tasks:
+
+  - debug: var=ansible_os_family
+
+  - block: #===RedHat===
+
+    - name: Install default pack on RedHat
+      dnf: name={{ pakages }} state=latest
+      ignore_errors: True
+    when: ansible_os_family == "RedHat"
+
+  - block: #===Debian===
+      
+    - name: Install default pack on Debian
+      deb: name={{ pakages }} state=latest
+      ignore_errors: True
+      
+    #- debug:
+    #    var: pipi3
+    when: ansible_os_family == "Debian"
+
