@@ -1,0 +1,18 @@
+---
+- name: reboot servers
+  hosts: all
+  remote_user: root
+
+  tasks:
+
+  - name: reboot
+    shell: sleep 3 && reboot
+    async: 1
+    poll: 0
+
+  - name: wait
+    wait_for:
+      host: "{{ inventory_hostname }}"
+      delay: 5
+      timeout: 40
+    delegate_to: 127.0.0.1
